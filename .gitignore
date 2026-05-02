@@ -1,0 +1,39 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Local environments and caches
+.env
+.venv/
+venv/
+hf_cache/
+hf_datasets_cache/
+.cache/
+.unsloth/
+
+# Training outputs and model artifacts
+outputs*/
+checkpoint-*/
+lora*/
+gguf*/
+safetensors*/
+merged*/
+*.safetensors
+*.gguf
+*.pt
+*.pth
+*.bin
+*.tar
+*.tar.gz
+
+# Local datasets can be large or license-sensitive.
+*.jsonl
+!data/*.jsonl
+
+# Tooling
+.DS_Store
+.idea/
+.vscode/
