@@ -1,49 +1,54 @@
-# Qwen3.5-9B-Philosophy-Hegel-Lacan-Zizek
+# 🧠 Qwen3.5-9B Philosophy Scripts
 
-基于 **Qwen3.5-9B** 的哲学领域 SFT 微调模型，专注于 **黑格尔辩证法、拉康精神分析与齐泽克意识形态批判** 的深度推理。
+本仓库是 **Qwen3.5-9B-Philosophy-Hegel-Lacan-Zizek** 的脚本仓库，主要保存训练、数据处理、推理、GGUF 导出和 ModelScope 上传脚本。
 
-本 GitHub 仓库只保存训练、推理、导出和上传脚本。模型权重、LoRA 适配器、GGUF 文件、训练 checkpoint、缓存和本地数据集没有纳入 Git，以避免超大文件与凭据泄漏。
+📦 **模型权重与 GGUF 文件请前往魔塔 ModelScope：**  
+https://www.modelscope.cn/models/oooooo0o/qwen3-5-9b-philosophy-Hegel-Lacan-Zizek-qlora
 
-## 模型信息
+💾 **GGUF 目录：**  
+https://www.modelscope.cn/models/oooooo0o/qwen3-5-9b-philosophy-Hegel-Lacan-Zizek-qlora/tree/master/gguf
 
-| 项目 | 说明 |
-|------|------|
-| 基础模型 | Qwen3.5-9B（unsloth 版本） |
-| 微调方式 | LoRA 全模块适配器（7 个目标模块） |
-| 训练数据 | 895 条哲学领域 SFT 数据 |
-| 训练轮数 | 3 epochs |
-| 量化精度 | BF16（safetensors）/ Q4_K_M、Q8_0（GGUF） |
-| 系统提示 | 黑格尔辩证法 + 拉康三界 + 齐泽克视差缝隙 |
-| 开发者 | oooooo0o（ModelScope） |
+> GitHub 只保存代码和配置，不保存模型权重、LoRA 适配器、GGUF 文件、训练 checkpoint、缓存和本地数据集，避免超大文件与凭据泄漏。
 
-## 仓库结构
+## ✨ 项目说明
 
-```
-config.py                 — training paths and hyperparameters
-data_handler.py           — SFT dataset formatting
-train.py                  — Unsloth LoRA SFT training entrypoint
-inferencec_lora_v2.py     — local LoRA inference smoke test
-export_gguf.py            — merge/export to GGUF with Unsloth
-download_model.py         — ModelScope base model download helper
-check_model.py            — ModelScope download/check helper
-upload_modelscope.py      — ModelScope artifact upload helper
-ds_zero2.json             — DeepSpeed ZeRO-2 config
-ds_zero3.json             — DeepSpeed ZeRO-3 config
-requirements.txt          — Python dependency list
-```
+该项目基于 **Qwen3.5-9B** 做哲学领域 SFT 微调，主题聚焦：
 
-Expected local artifacts after training/exporting:
+- 🏛️ 黑格尔辩证法
+- 🧩 拉康精神分析
+- 🔍 齐泽克意识形态批判
+- 🧠 长链路哲学推理
 
-```
-lora*/          — LoRA adapters
-safetensors*/   — merged BF16 weights
-gguf*/          — GGUF quantized models
-outputs*/       — trainer checkpoints
+模型成品、LoRA、safetensors 和 GGUF 量化版本均托管在魔塔 ModelScope。
+
+## 🗂️ 脚本结构
+
+```text
+config.py                 # ⚙️ 训练路径、模型路径和超参数
+data_handler.py           # 🧾 SFT 数据格式化与样本处理
+train.py                  # 🚂 Unsloth LoRA SFT 训练入口
+inferencec_lora_v2.py     # 💬 本地 LoRA 推理与 smoke test
+export_gguf.py            # 📦 合并权重并导出 GGUF
+download_model.py         # ⬇️ ModelScope 基座模型下载辅助脚本
+check_model.py            # 🔎 ModelScope 模型下载/检查辅助脚本
+upload_modelscope.py      # ⬆️ ModelScope 产物上传辅助脚本
+ds_zero2.json             # 🧱 DeepSpeed ZeRO-2 配置
+ds_zero3.json             # 🧱 DeepSpeed ZeRO-3 配置
+requirements.txt          # 📌 Python 依赖列表
 ```
 
-These paths are ignored by `.gitignore`.
+训练和导出后可能生成的本地产物：
 
-## 快速开始
+```text
+lora*/          # LoRA adapters
+safetensors*/   # merged BF16 weights
+gguf*/          # GGUF quantized models
+outputs*/       # trainer checkpoints
+```
+
+这些路径已在 `.gitignore` 中排除。
+
+## 🚀 快速开始
 
 ```bash
 pip install -r requirements.txt
@@ -52,94 +57,70 @@ python train.py
 python inferencec_lora_v2.py
 ```
 
-上传到 ModelScope 时不要把 token 写入脚本：
+## 🧪 推理测试
+
+```bash
+python inferencec_lora_v2.py
+```
+
+脚本默认用于加载本地 LoRA 产物并进行一次哲学问答推理测试。实际模型路径、LoRA 路径和生成参数请按本机环境修改 `config.py` 或脚本内配置。
+
+## 📦 导出 GGUF
+
+```bash
+python export_gguf.py
+```
+
+导出后的 GGUF 文件建议上传到魔塔仓库：
+
+```text
+gguf/Qwen3.5-9B.BF16-mmproj.gguf
+gguf/Qwen3.5-9B.Q4_K_M.gguf
+gguf/Qwen3.5-9B.Q5_K_M.gguf
+gguf/Qwen3.5-9B.Q6_K.gguf
+gguf/Qwen3.5-9B.Q8_0.gguf
+```
+
+## ⬆️ 上传到 ModelScope
+
+不要把 token 写入脚本或提交到 GitHub：
 
 ```bash
 export MODELSCOPE_TOKEN="your_token"
 python upload_modelscope.py
 ```
 
-## 使用方式
+目标魔塔仓库：
 
-### 方式一：加载 LoRA 适配器
-
-使用 transformers / unsloth 加载基础模型 + LoRA 权重：
-
-```python
-from unsloth import FastLanguageModel
-
-model, tokenizer = FastLanguageModel.from_pretrained(
-    model_name="oooooo0o/qwen3-5-9b-philosophy-Hegel-Lacan-Zizek",
-    load_in_4bit=True,
-)
-FastLanguageModel.for_inference(model)
+```text
+oooooo0o/qwen3-5-9b-philosophy-Hegel-Lacan-Zizek-qlora
 ```
 
-> LoRA 权重位于 `lora/` 目录下，需要与 Qwen3.5-9B 基础模型配合使用。
-
-### 方式二：使用 safetensors 合并权重
-
-`safetensors/` 包含已合并 LoRA 的完整权重（BF16 精度），共 4 个分片：
-
-```
-model.safetensors-00001-of-00004.safetensors  (~5GB)
-model.safetensors-00002-of-00004.safetensors  (~5GB)
-model.safetensors-00003-of-00004.safetensors  (~5GB)
-model.safetensors-00004-of-00004.safetensors  (~3GB)
-```
-
-可直接作为独立模型加载，无需基础模型。
-
-### 方式三：使用 GGUF 量化模型
-
-`gguf/` 包含三种量化格式，适用于 **llama.cpp、Ollama、LM Studio** 等本地推理工具：
-
-| 文件 | 量化方式 | 特点 |
-|------|---------|------|
-| `Qwen3.5-9B.BF16-mmproj.gguf` | BF16（半精度） | 精度最高，体积最大 |
-| `Qwen3.5-9B.Q4_K_M.gguf` | 4-bit 智能量化 | 推荐本地推理，速度与精度平衡 |
-| `Qwen3.5-9B.Q8_0.gguf` | 8-bit 近无损 | 哲学逻辑精度极致要求 |
-
-## 推理示例
-
-```python
-messages = [
-    {"role": "system", "content": "你是一个精通黑格尔辩证法、拉康精神分析与齐泽克意识形态批判的顶级哲学家。"},
-    {"role": "user", "content": "为什么智能客服在咒骂时依然保持机械微笑？"},
-]
-
-inputs = tokenizer.apply_chat_template(messages, tokenize=True, return_tensors="pt").to("cuda")
-outputs = model.generate(
-    inputs, max_new_tokens=2048, temperature=0.3, top_p=0.95, top_k=30,
-    repetition_penalty=1.15
-)
-print(tokenizer.decode(outputs[0], skip_special_tokens=True))
-```
-
-**推荐生成参数：** `temperature=0.3`, `top_p=0.95`, `top_k=30`, `repetition_penalty=1.15`
-
-## 训练配置
+## 🧰 训练配置概览
 
 | 参数 | 值 |
 |------|------|
-| LoRA 秩 (r) | 32 |
-| LoRA alpha | 64 |
-| LoRA dropout | 0 |
-| 目标模块 | q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj |
-| 最大序列长度 | 8192 |
-| 学习率 | 2e-5 |
-| 优化器 | adamw_8bit |
-| 调度器 | cosine |
-| 注意力实现 | sdpa |
+| 🧬 微调方式 | LoRA 全模块适配器 |
+| 🎯 目标模块 | q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj |
+| 📏 最大序列长度 | 8192 |
+| 🔢 LoRA rank | 32 |
+| ⚖️ LoRA alpha | 64 |
+| 📉 学习率 | 2e-5 |
+| 🧮 优化器 | adamw_8bit |
+| 🌊 调度器 | cosine |
+| ⚡ 注意力实现 | sdpa |
 
-## 适用场景
+## 🔗 相关链接
 
-- 哲学问题深度分析
-- 意识形态批判
-- 精神分析视角解构
-- 辩证法推理
+- 📦 ModelScope 模型主页：  
+  https://www.modelscope.cn/models/oooooo0o/qwen3-5-9b-philosophy-Hegel-Lacan-Zizek-qlora
+- 💾 ModelScope GGUF 文件夹：  
+  https://www.modelscope.cn/models/oooooo0o/qwen3-5-9b-philosophy-Hegel-Lacan-Zizek-qlora/tree/master/gguf
+- 🧑‍💻 GitHub 脚本仓库：  
+  https://github.com/PyzmxU/qwen3-5-9b-philosophy-Hegel-Lacan-Zizek
 
-## 限制
+## ⚠️ 注意
 
-- 本模型仅针对哲学领域微调，通用任务表现不作保证
-- 推理温度不宜过高（建议 ≤ 0.5），否则逻辑链可能断裂
+- 🔐 不要提交 ModelScope token、GitHub token 或本地凭据文件。
+- 🧱 不要把大模型权重、GGUF、checkpoint 直接提交到 GitHub。
+- 🌡️ 推理温度建议不高于 `0.5`，避免哲学推理链条漂移。
